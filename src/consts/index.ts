@@ -1,4 +1,14 @@
-export const THEMES = [
+export type Theme = {
+  id: string;
+  label: string;
+  teaser: string;
+  icon: string;
+  gradient: string;
+  accent: string;
+  character: 'hero' | 'shadow' | 'orb' | string;
+};
+
+export const THEMES: Theme[] = [
   { id:'kingdom', label:'The Lost Kingdom', icon:'⚔️', teaser:'A fallen realm calls for its champion.', gradient:'linear-gradient(135deg,#0d2b1d,#0a0a2e)', accent:'#2ecc71', character:'hero' as const },
   { id:'neon', label:'Neon Abyss', icon:'⚡', teaser:'The city never sleeps — neither do its secrets.', gradient:'linear-gradient(135deg,#0d0d2b,#2b0d2b)', accent:'#00f5ff', character:'shadow' as const },
   { id:'manor', label:'The Haunted Manor', icon:'🕯', teaser:'Something watches from behind the walls.', gradient:'linear-gradient(135deg,#1a0a0a,#2b1010)', accent:'#cc2222', character:'shadow' as const },
