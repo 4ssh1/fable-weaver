@@ -1,14 +1,16 @@
-
 import React, { useState, useEffect } from 'react';
 import type { Theme } from '../../consts';
 
 type CardTilt = { rx: number; ry: number; transitioning: boolean };
 
-export default function Landing({ THEMES, selectTheme }: { THEMES: Theme[]; selectTheme: (theme: Theme, e: React.MouseEvent) => void }) {
+export default function Landing({ THEMES, selectTheme }: {
+  THEMES: Theme[];
+  selectTheme: (theme: Theme, e: React.MouseEvent) => void;
+}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
   const [cardTilts, setCardTilts] = useState<Record<string, CardTilt>>({});
 
   useEffect(() => {
@@ -25,14 +27,25 @@ export default function Landing({ THEMES, selectTheme }: { THEMES: Theme[]; sele
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    if(!searchQuery.trim()){
-      setError("Please enter a theme") 
-      return
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) {
+      setError("Please enter a theme");
+      return;
     }
-  }
+    
+    const customTheme: Theme = {
+      id: `custom-${Date.now()}`,
+      label: searchQuery, 
+      teaser: 'A tale of your own making...',
+      icon: '🔮',
+      character: 'orb', 
+      gradient: 'linear-gradient(135deg, rgba(20,10,30,0.9), rgba(10,20,40,0.9))',
+      accent: '#928dab'
+    };
+
+    selectTheme(customTheme, e as unknown as React.MouseEvent);
+  };
 
   const handleCardMove = (id: string, e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -77,7 +90,7 @@ export default function Landing({ THEMES, selectTheme }: { THEMES: Theme[]; sele
               className="w-full rounded-xl border border-amber-800/50 bg-black/50 px-5 py-3 pl-11 text-sm backdrop-blur-sm outline-none transition-all duration-300 focus:border-amber-500/80 focus:shadow-[0_0_20px_rgba(201,146,42,0.15)]"
               style={{fontFamily:'var(--font-body)',color:'var(--parchment)',caretColor:'#d4a438'}}
             />
-            {error && <p>{error}</p>}
+            {error && <p className="text-red-400 mt-2">{error}</p>}
           </form>
           <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 opacity-50" style={{color:'#d4a438'}} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" strokeLinecap="round" />
@@ -103,9 +116,6 @@ export default function Landing({ THEMES, selectTheme }: { THEMES: Theme[]; sele
                 <div className="w-28 h-2 rounded-full" style={{background:'rgba(237,224,196,0.08)',animation:'pulse-glow 1.5s ease-in-out infinite',animationDelay:'0.4s'}} />
                 <div className="w-20 h-2 rounded-full" style={{background:'rgba(237,224,196,0.06)',animation:'pulse-glow 1.5s ease-in-out infinite',animationDelay:'0.6s'}} />
               </div>
-              <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div style={{position:'absolute',top:0,left:0,width:'40%',height:'100%',background:'linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent)',transform:'skewX(-20deg)',animation:'shimmer 1.5s infinite'}} />
-              </div>
             </div>
           ))
         ) : (
@@ -116,7 +126,7 @@ export default function Landing({ THEMES, selectTheme }: { THEMES: Theme[]; sele
           }).length === 0 ? (
             <div className="flex flex-col items-center gap-3 py-12" style={{animation:'fade-up 0.4s ease both'}}>
               <span className="text-3xl" style={{animation:'float 3s ease-in-out infinite'}}>🔮</span>
-              <p className="text-sm italic" style={{fontFamily:'var(--font-body)',color:'rgba(237,224,196,0.5)'}}>No tales match your search...</p>
+              <p className="text-sm italic" style={{fontFamily:'var(--font-body)',color:'rgba(237,224,196,0.5)'}}>Press enter to fetch...</p>
             </div>
           ) : (
             THEMES.filter(t => {
@@ -127,7 +137,7 @@ export default function Landing({ THEMES, selectTheme }: { THEMES: Theme[]; sele
               const tilt = cardTilts[t.id] || {rx:0,ry:0,transitioning:false};
               return (
                 <div key={t.id}
-                  className="relative overflow-hidden rounded-xl border border-amber-900/40 transition-all duration-300 hover:scale-105 hover:border-amber-500/60"
+                  className="relative overflow-hidden rounded-xl border border-amber-900/40 transition-all duration-300 hover:scale-105 hover:border-amber-500/60 cursor-pointer"
                   style={{
                     width:'clamp(180px,40vw,208px)', aspectRatio:'2/3', background:t.gradient,
                     transform:`perspective(800px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,

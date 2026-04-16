@@ -7,9 +7,6 @@ import type { StoryTree, StoryNode } from '../../api';
 
 type Sparkle = { id: number; dx: number; dy: number; size: number; dur: number };
 
-// Derive a 0-100 fate score from the path taken through the tree.
-// Simple heuristic: each "good" choice (non-ending node still has options) +10,
-// losing ending -30, winning ending +30. Real delta comes from is_winning flag.
 function computeFateDelta(_choiceIndex: number): number {
   return _choiceIndex === 0 ? 15 : 20;
 }
@@ -59,6 +56,7 @@ export default function StoryScreen({
       } else {
         clearInterval(iv);
         setTimeout(() => {
+          // 2. Use snake_case boolean flags
           if (currentNode.is_ending) {
             setTimeout(() => {
               onStoryEnd(currentNode.is_winning ? 'win' : 'lose', choiceHistory);
@@ -71,7 +69,7 @@ export default function StoryScreen({
     }, 60);
     return () => clearInterval(iv);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentNode.id]);
+  }, [currentNode.id]); // We can safely use ID here since it's flat
 
   useEffect(() => {
     if (characterAnim === 'sparkle') {
@@ -91,6 +89,7 @@ export default function StoryScreen({
   }, [characterAnim]);
 
   const handleChoice = (choiceIndex: number) => {
+    if (!currentNode.options) return;
     const option = currentNode.options[choiceIndex];
     if (!option) return;
 
@@ -100,25 +99,18 @@ export default function StoryScreen({
     const newFate = Math.max(0, Math.min(100, fateMeter + delta));
     setFateMeter(newFate);
 
-    // Animate character
     setCharacterAnim(delta > 0 ? 'sparkle' : 'shake');
-
-    // Advance mood
     setMoodIndex(prev => Math.min(prev + 1, MOODS.length - 1));
-
-    // Snuff a candle
     setCandlesLit(prev => Math.max(0, prev - 1));
 
-    // Record this choice's text
     const updatedHistory = [...choiceHistory, option.text];
     setChoiceHistory(updatedHistory);
 
-    // Navigate to the next node
-    const nextNode = storyTree.all_nodes[option.next_node_id];
+    // 3. Lookup the next node in the flattened dictionary using the stringified ID
+    const nextNode = storyTree.all_nodes[String(option.node_id)];
 
     setTimeout(() => {
       if (!nextNode) {
-        // next_node_id not found — treat as ending based on current fate
         onStoryEnd(newFate > 50 ? 'win' : 'lose', updatedHistory);
         return;
       }
@@ -187,7 +179,6 @@ export default function StoryScreen({
         className="md:w-3/5 w-full flex flex-col overflow-hidden relative"
         style={{ background: 'rgba(8,8,16,0.95)' }}
       >
-        {/* Header bar */}
         <div className="flex items-center justify-between px-4 md:px-6 pt-4 md:pt-6 pb-3 gap-3 flex-wrap">
           <span
             className="px-3 py-1 rounded-full border text-xs"
@@ -196,7 +187,6 @@ export default function StoryScreen({
             {selectedTheme.icon} {selectedTheme.label}
           </span>
 
-          {/* Fate bar */}
           <div className="flex-1 mx-2 md:mx-6 min-w-25">
             <span className="text-xs block mb-1" style={{ fontFamily: 'var(--font-display)', color: 'rgba(212,164,56,0.6)' }}>Fate</span>
             <div className="relative h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.1)' }}>
@@ -211,7 +201,6 @@ export default function StoryScreen({
             </div>
           </div>
 
-          {/* Candles */}
           <div className="flex gap-1.5">
             {Array.from({ length: 5 }).map((_, i) => (
               <span
@@ -227,12 +216,11 @@ export default function StoryScreen({
           </div>
         </div>
 
-        {/* Story text */}
         <div className="flex-1 overflow-y-auto px-4 md:px-6 pt-4 pb-2">
           <p className="text-lg md:text-xl leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: 'var(--parchment)' }}>
             {displayedWords.map((w, i) => (
               <span
-                key={`${currentNode.id}-${i}`}
+                key={`word-${i}`}
                 className="inline-block mr-1.5"
                 style={{ animation: 'word-appear 0.15s ease both' }}
               >
@@ -242,11 +230,10 @@ export default function StoryScreen({
           </p>
         </div>
 
-        {/* Choices */}
         <div className="px-4 md:px-6 pb-6 md:pb-8 flex flex-col gap-3 mt-auto">
-          {choicesVisible && currentNode.options.map((option, i) => (
+          {choicesVisible && currentNode.options?.map((option, i) => (
             <button
-              key={option.next_node_id}
+              key={option.node_id} // 4. Using snake_case node_id here
               className="group relative overflow-hidden w-full py-4 px-6 rounded-lg border text-left transition-all duration-300 hover:shadow-lg"
               style={{
                 borderColor: 'rgba(180,130,40,0.4)',

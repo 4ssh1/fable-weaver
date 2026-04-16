@@ -6,7 +6,7 @@ const POLL_TIMEOUT_MS  = 60_000;
 
 export interface StoryOption {
   text: string;
-  next_node_id: string;
+  node_id: string;
 }
 
 export interface StoryNode {
@@ -17,12 +17,14 @@ export interface StoryNode {
   options: StoryOption[];
 }
 
-export interface StoryTree {
-  id: string;
+export type StoryTree = {
+  id: number;
+  session_id: string;
   title: string;
+  created_at: string;
   root_node: StoryNode;
-  all_nodes: Record<string, StoryNode>;
-}
+  all_nodes: Record<string, StoryNode>; 
+};
 
 export interface JobStatus {
     id: string;
@@ -54,8 +56,6 @@ export async function getStory(storyId: string): Promise<StoryTree> {
   if (!res.ok) throw new Error(`Failed to fetch story: ${res.status}`);
   return res.json();
 }
-
-
 
 export function pollUntilComplete(jobId: string): Promise<JobStatus> {
   return new Promise((resolve, reject) => {
