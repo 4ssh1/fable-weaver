@@ -81,23 +81,38 @@ export default function Landing({ THEMES, selectTheme }: {
       {/* Search bar */}
       <div className="relative z-10 mt-12 w-full max-w-md" style={{animation:'fade-up 0.6s ease both',animationDelay:'1.1s',opacity:0}}>
         <div className="relative">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="relative flex items-center">
+            <svg className="absolute left-3.5 w-4 h-4 opacity-50 pointer-events-none" style={{color:'#d4a438'}} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" strokeLinecap="round" />
+            </svg>
+            
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search for a theme..."
-              className="w-full rounded-xl border border-amber-800/50 bg-black/50 px-5 py-3 pl-11 text-sm backdrop-blur-sm outline-none transition-all duration-300 focus:border-amber-500/80 focus:shadow-[0_0_20px_rgba(201,146,42,0.15)]"
+              className="w-full rounded-xl border border-amber-800/50 bg-black/50 px-5 py-3 pl-11 pr-12 text-sm backdrop-blur-sm outline-none transition-all duration-300 focus:border-amber-500/80 focus:shadow-[0_0_20px_rgba(201,146,42,0.15)]"
               style={{fontFamily:'var(--font-body)',color:'var(--parchment)',caretColor:'#d4a438'}}
             />
-            {error && <p className="text-red-400 mt-2">{error}</p>}
+            <button
+              type="submit"
+              disabled={!searchQuery.trim()}
+              className="absolute right-2 p-1.5 rounded-lg transition-all duration-300 hover:scale-110"
+              style={{
+                color: searchQuery.trim() ? '#d4a438' : 'rgba(212,164,56,0.3)',
+                background: searchQuery.trim() ? 'rgba(212,164,56,0.1)' : 'transparent',
+                cursor: searchQuery.trim() ? 'pointer' : 'default',
+              }}
+              aria-label="Summon theme"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+              </svg>
+            </button>
           </form>
-          <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 opacity-50" style={{color:'#d4a438'}} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" strokeLinecap="round" />
-          </svg>
+          {error && <p className="text-red-400 mt-2 text-center text-sm">{error}</p>}
         </div>
       </div>
-
       {/* Theme cards */}
       <div className="relative z-10 mt-8 flex flex-wrap justify-center gap-6">
         {isSearching ? (

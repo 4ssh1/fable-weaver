@@ -47,16 +47,18 @@ export default function StoryScreen({
   useEffect(() => {
     setDisplayedWords([]);
     setChoicesVisible(false);
-    const words = currentNode.content.split(' ');
+    const words = currentNode.content.trim().split(/\s+/);
+    
     let i = 0;
     const iv = setInterval(() => {
       if (i < words.length) {
-        setDisplayedWords(prev => [...prev, words[i]]);
+        const wordToAdd = words[i];
+        
+        setDisplayedWords(prev => [...prev, wordToAdd]);
         i++;
       } else {
         clearInterval(iv);
         setTimeout(() => {
-          // 2. Use snake_case boolean flags
           if (currentNode.is_ending) {
             setTimeout(() => {
               onStoryEnd(currentNode.is_winning ? 'win' : 'lose', choiceHistory);
@@ -67,9 +69,10 @@ export default function StoryScreen({
         }, 300);
       }
     }, 60);
+
     return () => clearInterval(iv);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentNode.id]); // We can safely use ID here since it's flat
+  }, [currentNode.id]);
 
   useEffect(() => {
     if (characterAnim === 'sparkle') {
@@ -106,7 +109,6 @@ export default function StoryScreen({
     const updatedHistory = [...choiceHistory, option.text];
     setChoiceHistory(updatedHistory);
 
-    // 3. Lookup the next node in the flattened dictionary using the stringified ID
     const nextNode = storyTree.all_nodes[String(option.node_id)];
 
     setTimeout(() => {
@@ -233,7 +235,7 @@ export default function StoryScreen({
         <div className="px-4 md:px-6 pb-6 md:pb-8 flex flex-col gap-3 mt-auto">
           {choicesVisible && currentNode.options?.map((option, i) => (
             <button
-              key={option.node_id} // 4. Using snake_case node_id here
+              key={option.node_id}
               className="group relative overflow-hidden w-full py-4 px-6 rounded-lg border text-left transition-all duration-300 hover:shadow-lg"
               style={{
                 borderColor: 'rgba(180,130,40,0.4)',
