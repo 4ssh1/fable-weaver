@@ -69,7 +69,7 @@ export default function Landing({ THEMES, selectTheme }: {
 
       {/* Title */}
       <div className="relative z-10 text-center">
-        <h1 className="flex justify-center gap-1 md:gap-2 pt-10">
+        <h1 className="flex justify-center gap-1 md:gap-2 mt-10">
           {'FABLE'.split('').map((ch,i) => (
             <span key={i} className="text-5xl md:text-8xl font-bold" style={{fontFamily:'var(--font-display)',color:'#d4a438',animation:`fade-up 0.6s ease both`,animationDelay:`${i*0.1}s`,textShadow:'0 0 40px rgba(201,146,42,0.5)'}}>{ch}</span>
           ))}
