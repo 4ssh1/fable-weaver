@@ -11,6 +11,10 @@ An interactive, AI-powered "Choose Your Own Adventure" web application. Users ca
 
 ---
 
+<img width="1877" height="830" alt="image" src="https://github.com/user-attachments/assets/81a975b3-dc2a-48ca-98bd-3ac91423b7a0" />
+
+---
+
 ## 🏗️ System Architecture
 
 The application is split into a React-based frontend engine and a Python/SQLAlchemy backend (found in the [`choose-your-adventure`](https://github.com/4ssh1/choose-your-adventure) repository). 
