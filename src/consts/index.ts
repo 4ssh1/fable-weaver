@@ -1,3 +1,5 @@
+
+
 export type Theme = {
   id: string;
   label: string;
@@ -9,28 +11,20 @@ export type Theme = {
 };
 
 export const THEMES: Theme[] = [
-  { id:'kingdom', label:'The Lost Kingdom', icon:'⚔️', teaser:'A fallen realm calls for its champion.', gradient:'linear-gradient(135deg,#0d2b1d,#0a0a2e)', accent:'#2ecc71', character:'hero' as const },
-  { id:'neon', label:'Neon Abyss', icon:'⚡', teaser:'The city never sleeps — neither do its secrets.', gradient:'linear-gradient(135deg,#0d0d2b,#2b0d2b)', accent:'#00f5ff', character:'shadow' as const },
-  { id:'manor', label:'The Haunted Manor', icon:'🕯', teaser:'Something watches from behind the walls.', gradient:'linear-gradient(135deg,#1a0a0a,#2b1010)', accent:'#cc2222', character:'shadow' as const },
-  { id:'starfall', label:'Starfall', icon:'🌌', teaser:'The stars are dying. Only you know why.', gradient:'linear-gradient(135deg,#050514,#0a1428)', accent:'#7b68ee', character:'orb' as const },
-  { id:'sea', label:'The Forgotten Sea', icon:'🌊', teaser:'The ocean hides an empire beneath its waves.', gradient:'linear-gradient(135deg,#021b2e,#042b2b)', accent:'#20b2aa', character:'hero' as const },
+  { id: 'kingdom', label: 'The Lost Kingdom',  icon: '⚔️', teaser: 'A fallen realm calls for its champion.',           gradient: 'linear-gradient(135deg,#0d2b1d,#0a0a2e)', accent: '#2ecc71', character: 'hero'   },
+  { id: 'neon',    label: 'Neon Abyss',         icon: '⚡', teaser: 'The city never sleeps — neither do its secrets.', gradient: 'linear-gradient(135deg,#0d0d2b,#2b0d2b)', accent: '#00f5ff', character: 'shadow' },
+  { id: 'manor',   label: 'The Haunted Manor',  icon: '🕯', teaser: 'Something watches from behind the walls.',        gradient: 'linear-gradient(135deg,#1a0a0a,#2b1010)', accent: '#cc2222', character: 'shadow' },
+  { id: 'starfall',label: 'Starfall',           icon: '🌌', teaser: 'The stars are dying. Only you know why.',         gradient: 'linear-gradient(135deg,#050514,#0a1428)', accent: '#7b68ee', character: 'orb'    },
+  { id: 'sea',     label: 'The Forgotten Sea',  icon: '🌊', teaser: 'The ocean hides an empire beneath its waves.',    gradient: 'linear-gradient(135deg,#021b2e,#042b2b)', accent: '#20b2aa', character: 'hero'   },
 ];
-
-export const STORY_BEATS = [
-  { text: "You stand at the threshold of the ancient gate, its stones humming with forgotten power. The wind carries whispers of those who came before — none returned. Your torch flickers. Somewhere deep inside, something stirs.", choices: [{ label: "Enter the gate boldly", hint: "Brave, but reckless...", delta: 18 }, { label: "Study the inscriptions first", hint: "Wise. Time is uncertain.", delta: 12 }] },
-  { text: "The passage opens into a vast chamber. In its center, a figure kneels over a glowing altar — hooded, motionless. On the altar rests what you seek. The figure speaks without turning: 'I wondered when you would arrive.'", choices: [{ label: "Demand they step aside", hint: "Confrontational. Costly.", delta: -15 }, { label: "Ask who they are", hint: "Knowledge is power.", delta: 20 }] },
-  { text: "The figure reveals a face you recognize — someone lost long ago. They hold out your prize with trembling hands. 'Take it,' they whisper, 'but know what it costs.' Behind them, the walls begin to crack. Dust falls like rain.", choices: [{ label: "Seize it and run", hint: "Survival above all.", delta: -20 }, { label: "Ask what the cost is", hint: "The truth changes everything.", delta: 25 }] },
-];
-
-export const MOODS = ['Determined','Anxious','Resolute','Desperate','Triumphant'];
 
 export const LOADING_QUOTES = [
-  "The threads of fate are weaving...",
-  "Your choice ripples through the realm...",
-  "The story bends to your will...",
-  "Destiny is being written...",
-  "The ancient words take form...",
-  "The world shifts around your decision...",
+  'The threads of fate are weaving...',
+  'Your choice ripples through the realm...',
+  'The story bends to your will...',
+  'Destiny is being written...',
+  'The ancient words take form...',
+  'The world shifts around your decision...',
 ];
 
 export const INJECTED_CSS = `
@@ -71,15 +65,9 @@ export const INJECTED_CSS = `
 @keyframes bounce-dot { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
 @keyframes crown-spin { from{transform:translateX(-50%) rotate(0deg)} to{transform:translateX(-50%) rotate(360deg)} }
 
-.transition-overlay-enter {
-  animation: ink-reveal 0.5s ease-in forwards;
-}
-.transition-overlay-exit {
-  animation: fade-out-overlay 0.4s ease forwards;
-}
-@keyframes fade-out-overlay {
-  from{opacity:1} to{opacity:0}
-}
+.transition-overlay-enter { animation: ink-reveal 0.5s ease-in forwards; }
+.transition-overlay-exit  { animation: fade-out-overlay 0.4s ease forwards; }
+@keyframes fade-out-overlay { from{opacity:1} to{opacity:0} }
 
 body.story-active { cursor: none !important; }
 body.story-active * { cursor: none !important; }

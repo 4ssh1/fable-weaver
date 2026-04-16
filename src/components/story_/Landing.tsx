@@ -8,6 +8,7 @@ export default function Landing({ THEMES, selectTheme }: { THEMES: Theme[]; sele
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const [error, setError] = useState("")
   const [cardTilts, setCardTilts] = useState<Record<string, CardTilt>>({});
 
   useEffect(() => {
@@ -23,6 +24,15 @@ export default function Landing({ THEMES, selectTheme }: { THEMES: Theme[]; sele
     }, 400);
     return () => clearTimeout(timer);
   }, [searchQuery]);
+
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if(!searchQuery.trim()){
+      setError("Please enter a theme") 
+      return
+    }
+  }
 
   const handleCardMove = (id: string, e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -58,14 +68,17 @@ export default function Landing({ THEMES, selectTheme }: { THEMES: Theme[]; sele
       {/* Search bar */}
       <div className="relative z-10 mt-12 w-full max-w-md" style={{animation:'fade-up 0.6s ease both',animationDelay:'1.1s',opacity:0}}>
         <div className="relative">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search for a theme..."
-            className="w-full rounded-xl border border-amber-800/50 bg-black/50 px-5 py-3 pl-11 text-sm backdrop-blur-sm outline-none transition-all duration-300 focus:border-amber-500/80 focus:shadow-[0_0_20px_rgba(201,146,42,0.15)]"
-            style={{fontFamily:'var(--font-body)',color:'var(--parchment)',caretColor:'#d4a438'}}
-          />
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search for a theme..."
+              className="w-full rounded-xl border border-amber-800/50 bg-black/50 px-5 py-3 pl-11 text-sm backdrop-blur-sm outline-none transition-all duration-300 focus:border-amber-500/80 focus:shadow-[0_0_20px_rgba(201,146,42,0.15)]"
+              style={{fontFamily:'var(--font-body)',color:'var(--parchment)',caretColor:'#d4a438'}}
+            />
+            {error && <p>{error}</p>}
+          </form>
           <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 opacity-50" style={{color:'#d4a438'}} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" strokeLinecap="round" />
           </svg>
