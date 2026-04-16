@@ -12,7 +12,7 @@ export type Theme = {
 
 export const THEMES: Theme[] = [
   { id: 'kingdom', label: 'The Lost Kingdom',  icon: '⚔️', teaser: 'A fallen realm calls for its champion.',           gradient: 'linear-gradient(135deg,#0d2b1d,#0a0a2e)', accent: '#2ecc71', character: 'hero'   },
-  { id: 'neon',    label: 'Neon Abyss',         icon: '⚡', teaser: 'The city never sleeps — neither do its secrets.', gradient: 'linear-gradient(135deg,#0d0d2b,#2b0d2b)', accent: '#00f5ff', character: 'shadow' },
+  { id: 'neon',    label: 'Neon Abyss',         icon: '⚡', teaser: 'The city never sleeps, neither do its secrets.', gradient: 'linear-gradient(135deg,#0d0d2b,#2b0d2b)', accent: '#00f5ff', character: 'shadow' },
   { id: 'manor',   label: 'The Haunted Manor',  icon: '🕯', teaser: 'Something watches from behind the walls.',        gradient: 'linear-gradient(135deg,#1a0a0a,#2b1010)', accent: '#cc2222', character: 'shadow' },
   { id: 'starfall',label: 'Starfall',           icon: '🌌', teaser: 'The stars are dying. Only you know why.',         gradient: 'linear-gradient(135deg,#050514,#0a1428)', accent: '#7b68ee', character: 'orb'    },
   { id: 'sea',     label: 'The Forgotten Sea',  icon: '🌊', teaser: 'The ocean hides an empire beneath its waves.',    gradient: 'linear-gradient(135deg,#021b2e,#042b2b)', accent: '#20b2aa', character: 'hero'   },
