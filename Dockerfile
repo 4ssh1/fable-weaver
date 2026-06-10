@@ -1,5 +1,5 @@
 # set the base image to create image for react app
-FROM node
+FROM node:18-alpine
 
 # Install pnpm directly using npm
 RUN npm install -g pnpm

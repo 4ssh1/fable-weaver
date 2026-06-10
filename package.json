@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "docker:build": "docker build -t fable-weaver .",
     "docker:run": "docker run -p 5173:5173 fable-weaver",
+    "docker:watch:run" : "docker run -p 5173:5173 -v $(pwd):/app -v /app/node_modules fable-weaver",
     "docker:list": "docker ps",
     "docker:list-all": "docker ps -a"
   },
