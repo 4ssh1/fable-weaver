@@ -12,7 +12,9 @@
     "docker:run": "docker run -p 5173:5173 fable-weaver",
     "docker:watch:run": "docker run -p 5173:5173 -v \"%cd%:/app\" -v /app/node_modules fable-weaver",
     "docker:list": "docker ps",
-    "docker:list-all": "docker ps -a"
+    "docker:list-all": "docker ps -a",
+    "docker:login": "docker login",
+    "docker:publish": "docker tag fable-weaver <your-dockerhub-username>/fable-weaver:latest && docker push <your-dockerhub-username>/fable-weaver:latest"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.2",
